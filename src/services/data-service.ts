@@ -1,5 +1,11 @@
+export interface Card {
+  id?: number;
+  title: string;
+  imageUrl: string;
+  description?: string;
+}
 
-const initialCards = [
+const initialCards: Card[] = [
   {
     id: 1,
     title: 'Random cat card',
@@ -15,16 +21,16 @@ const initialCards = [
 ];
 
 function initData() {
-  const cards = JSON.parse(sessionStorage.getItem('cards'));
+  const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards')!);
   if(!cards) {
     sessionStorage.setItem('cards', JSON.stringify(initialCards));
   }
 }
 
-export function getAllCards() {
+export function getAllCards(): Promise<Card[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const cards = JSON.parse(sessionStorage.getItem('cards'));
+      const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards')!);
       if(cards && cards.length) {
         resolve(cards);
       } else {
@@ -34,12 +40,12 @@ export function getAllCards() {
   });
 }
 
-export function getCard(cardId) {
+export function getCard(cardId: number): Promise<Card> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const cards = JSON.parse(sessionStorage.getItem('cards'));
+      const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards')!);
       if(cards && cards.length) {
-        const card = cards.find(c => c.id == cardId);
+        const card = cards.find(c => c.id === cardId);
         if (card) {
           resolve(card);
         } else {
@@ -52,12 +58,12 @@ export function getCard(cardId) {
   });
 }
 
-export function createCard(card) {
+export function createCard(card): Promise<void> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const cards = JSON.parse(sessionStorage.getItem('cards'));
+      const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards')!);
       if(cards && cards.length) {
-        const maxId = Math.max(...cards.map(c => c.id));
+        const maxId = Math.max(...cards.map(c => c.id!));
         cards.push({ id: maxId + 1, ...card });
         sessionStorage.setItem('cards', JSON.stringify(cards));
         resolve();
@@ -68,12 +74,12 @@ export function createCard(card) {
   });
 }
 
-export function updateCard(card) {
+export function updateCard(card): Promise<void> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const cards = JSON.parse(sessionStorage.getItem('cards'));
+      const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards')!);
       if(cards && cards.length) {
-        const idxToUpdate = cards.findIndex(c => c.id == card.id)
+        const idxToUpdate = cards.findIndex(c => c.id === card.id)
         if (idxToUpdate >= 0) {
           cards[idxToUpdate] = card;
           sessionStorage.setItem('cards', JSON.stringify(cards));
@@ -88,12 +94,12 @@ export function updateCard(card) {
   });
 }
 
-export function deleteCard(cardId) {
+export function deleteCard(cardId): Promise<void> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const cards = JSON.parse(sessionStorage.getItem('cards'));
+      const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards')!);
       if(cards && cards.length) {
-        const idxToDelete = cards.findIndex(c => c.id == cardId);
+        const idxToDelete = cards.findIndex(c => c.id === cardId);
         if (idxToDelete >= 0) {
           cards.splice(idxToDelete, 1);
           sessionStorage.setItem('cards', JSON.stringify(cards));

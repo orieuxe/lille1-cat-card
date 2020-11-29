@@ -1,12 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Footer from './components/Footer/Footer';
+import Home from './components/Home/Home';
+import CardForm from './components/CardForm/CardForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Header from './components/Header/Header';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Header />
+      <Switch>
+          <Route path="/card-form/:cardId" render={({match}) => (
+            <CardForm cardId={parseInt(match.params.cardId)} />
+          )}/>
+          <Route path="/card-form">
+            <CardForm/>
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      <Footer />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
